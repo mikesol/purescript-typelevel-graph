@@ -22,13 +22,24 @@ hasOprhanNodes0 :: BProxy True
 hasOprhanNodes0 =
   BProxy ::
     forall b.
-    HasOrphanNodes ( "q" :: SLProxy ("a" :/ "r" :/ SNil), "f" :: SLProxy ("r" :/ "p" :/ SNil) ) b =>
+    HasOrphanNodes
+      ( "q" :: SLProxy ("a" :/ "r" :/ SNil)
+      , "f" :: SLProxy ("r" :/ "p" :/ SNil)
+      )
+      b =>
     BProxy b
 
 hasOprhanNodes1 :: BProxy False
 hasOprhanNodes1 =
   BProxy ::
     forall b.
-    HasOrphanNodes ( "a" :: SLProxy SNil, "r" :: SLProxy SNil, "p" :: SLProxy SNil, "q" :: SLProxy ("a" :/ "r" :/ SNil), "f" :: SLProxy ("r" :/ "p" :/ SNil) ) b =>
+    HasOrphanNodes
+      ( "a" :: SLProxy SNil
+      , "r" :: SLProxy SNil
+      , "p" :: SLProxy SNil
+      , "q" :: SLProxy ("a" :/ "r" :/ SNil)
+      , "f" :: SLProxy ("r" :/ "p" :/ SNil)
+      )
+      b =>
     BProxy b
 ```
