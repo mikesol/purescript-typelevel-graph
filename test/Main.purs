@@ -106,7 +106,7 @@ testTraversal0 =
     Traversal "q" ( "q" :: SLProxy SNil ) sl =>
     SLProxy sl
 
-testTraversal1 :: SLProxy ("q" :/ "a" :/ SNil)
+testTraversal1 :: SLProxy ("a" :/ "q" :/  SNil)
 testTraversal1 =
   SLProxy ::
     forall sl.
@@ -463,6 +463,44 @@ flipDirection =
       )
       r =>
     RProxy r
+
+---------------- from audio behaviors
+
+a_flipDirection ::
+  RProxy
+    ( "combine" :: SLProxy SNil
+      , "gain" :: SLProxy ("combine" :/ SNil)
+      , "del" :: SLProxy ("gain" :/ SNil)
+      , "filt" :: SLProxy ("del" :/ SNil)
+      , "mic" :: SLProxy ("combine" :/ "filt" :/  SNil)
+      )
+a_flipDirection =
+  RProxy ::
+    forall (r :: # Type).
+    FlipDirection
+      ( "combine" :: SLProxy ("gain" :/ "mic" :/ SNil)
+      , "gain" :: SLProxy ("del" :/ SNil)
+      , "del" :: SLProxy ("filt" :/ SNil)
+      , "filt" :: SLProxy ("mic" :/ SNil)
+      , "mic" :: SLProxy SNil
+      )
+      r =>
+    RProxy r
+
+a_testConnectedWithFlip :: BProxy True
+a_testConnectedWithFlip =
+  BProxy ::
+    forall (r :: # Type) b.
+    FlipDirection
+      ( "combine" :: SLProxy ("gain" :/ "mic" :/ SNil)
+      , "gain" :: SLProxy ("del" :/ SNil)
+      , "del" :: SLProxy ("filt" :/ SNil)
+      , "filt" :: SLProxy ("mic" :/ SNil)
+      , "mic" :: SLProxy SNil
+      )
+      r =>
+    IsConnected r b =>
+    BProxy b
 
 main :: Effect Unit
 main = do

@@ -105,9 +105,7 @@ instance lookup :: LookupInternal SNil s g r => Lookup s g r
 
 instance traversalWithMapInternalTrue ::
   ( Lookup s graph res
-  , Concat acc res accWithResx
-  , RemoveDuplicates accWithResx accWithRes
-  , TraversalWithFoldInternal accWithRes res graph nodes
+  , TraversalWithFoldInternal acc res graph nodes
   ) =>
   TraversalWithMapInternal True acc s graph nodes
 
