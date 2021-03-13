@@ -1,0 +1,27 @@
+{
+  "name": "purescript-typelevel-graph",
+  "version": "1.0.0",
+  "description": "Basic typelevel assertions about graphs.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikesol/purescript-typelevel-graph.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mikesol/purescript-typelevel-graph/issues"
+  },
+  "homepage": "https://github.com/mikesol/purescript-typelevel-graph#readme",
+  "devDependencies": {
+    "purescript": "^0.14.0",
+    "spago": "^0.19.1"
+  }
+}
