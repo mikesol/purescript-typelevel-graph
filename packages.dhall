@@ -107,4 +107,30 @@ in  upstream
 let upstream =
       https://github.com/purescript/package-sets/releases/download/psc-0.14.0-20210311/packages.dhall sha256:3da8be2b7b4a0e7de6186591167b363023695accffb98a8639e9e7d06e2070d6
 
-in  upstream
+let additions = {
+  typelevel-peano = { dependencies =
+            [ "arrays"
+  , "console"
+  , "effect"
+  , "prelude"
+  , "psci-support"
+  , "typelevel-prelude"
+  , "unsafe-coerce"
+  ]
+      , repo =
+          "https://github.com/csicar/purescript-typelevel-peano.git"
+      , version =
+          "v1.0.1"
+      },
+typelevel-prelude = { dependencies =
+            [ "type-equality"
+  ]
+      , repo =
+          "https://github.com/purescript/purescript-typelevel-prelude.git"
+      , version =
+          "v6.0.0"
+      }
+}
+
+
+in  upstream // additions

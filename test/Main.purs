@@ -5,502 +5,499 @@ import Effect (Effect)
 import Effect.Class.Console (log)
 import Prim.Boolean (False, True)
 import Prim.RowList (class RowToList)
-import Record.Extra (SLProxy(..), SNil)
-import Type.Data.Boolean (BProxy(..))
-import Type.Data.Graph (class AllEdges, class Concat, class Connected, class FlipDirection, class HasDuplicateEdges, class HasDuplicateNodes, class HasOrphanNodes, class HasSymbol, class HasUniqueTerminus, class IncomingNodes, class IsConnected, class Lookup, class NTermini, class NoDuplicateEdges, class NoDuplicateNodes, class NoOrphanedNodes, class RemoveDuplicates, class Traversal, class WithUniqueTerminus, type (:/))
-import Type.Data.Peano (D3, NProxy(..), Z)
-import Type.Data.Row (RProxy(..))
+import Type.Data.Graph (class AllEdges, SNil, class Concat, class Connected, class FlipDirection, class HasDuplicateEdges, class HasDuplicateNodes, class HasOrphanNodes, class HasSymbol, class HasUniqueTerminus, class IncomingNodes, class IsConnected, class Lookup, class NTermini, class NoDuplicateEdges, class NoDuplicateNodes, class NoOrphanedNodes, class RemoveDuplicates, class Traversal, class WithUniqueTerminus, type (:/))
+import Type.Data.Peano (D3, Z)
+import Type.Proxy (Proxy(..))
 
-testHasSymbol :: BProxy True
+testHasSymbol :: Proxy True
 testHasSymbol =
-  BProxy ::
+  Proxy ::
     forall b.
     HasSymbol ("a" :/ "b" :/ SNil) "a" b =>
-    BProxy b
+    Proxy b
 
-testHasSymbol' :: BProxy False
+testHasSymbol' :: Proxy False
 testHasSymbol' =
-  BProxy ::
+  Proxy ::
     forall b.
     HasSymbol ("a" :/ "b" :/ SNil) "q" b =>
-    BProxy b
+    Proxy b
 
-testHasSymbol'' :: BProxy True
+testHasSymbol'' :: Proxy True
 testHasSymbol'' =
-  BProxy ::
+  Proxy ::
     forall b.
     HasSymbol ("a" :/ "b" :/ SNil) "b" b =>
-    BProxy b
+    Proxy b
 
-testHasSymbol''_ :: BProxy False
+testHasSymbol''_ :: Proxy False
 testHasSymbol''_ =
-  BProxy ::
+  Proxy ::
     forall b.
     HasSymbol (SNil) "b" b =>
-    BProxy b
+    Proxy b
 
-testLookup :: SLProxy ("a" :/ "b" :/ SNil)
+testLookup :: Proxy ("a" :/ "b" :/ SNil)
 testLookup =
-  SLProxy ::
+  Proxy ::
     forall rl sl.
-    RowToList ( "q" :: (SLProxy ("a" :/ "b" :/ SNil)) ) rl =>
+    RowToList ( "q" :: (Proxy ("a" :/ "b" :/ SNil)) ) rl =>
     Lookup "q" rl sl =>
-    SLProxy sl
+    Proxy sl
 
-testLookup1 :: SLProxy ("a" :/ "b" :/ SNil)
+testLookup1 :: Proxy ("a" :/ "b" :/ SNil)
 testLookup1 =
-  SLProxy ::
+  Proxy ::
     forall rl sl.
-    RowToList ( "r" :: (SLProxy ("x" :/ "b" :/ SNil)), "q" :: (SLProxy ("a" :/ "b" :/ SNil)) ) rl =>
+    RowToList ( "r" :: (Proxy ("x" :/ "b" :/ SNil)), "q" :: (Proxy ("a" :/ "b" :/ SNil)) ) rl =>
     Lookup "q" rl sl =>
-    SLProxy sl
+    Proxy sl
 
-testLookup2 :: SLProxy ("a" :/ "b" :/ SNil)
+testLookup2 :: Proxy ("a" :/ "b" :/ SNil)
 testLookup2 =
-  SLProxy ::
+  Proxy ::
     forall rl sl.
-    RowToList ( "q" :: (SLProxy ("a" :/ "b" :/ SNil)), "r" :: (SLProxy ("x" :/ "b" :/ SNil)) ) rl =>
+    RowToList ( "q" :: (Proxy ("a" :/ "b" :/ SNil)), "r" :: (Proxy ("x" :/ "b" :/ SNil)) ) rl =>
     Lookup "q" rl sl =>
-    SLProxy sl
+    Proxy sl
 
-testLookup3 :: SLProxy SNil
+testLookup3 :: Proxy SNil
 testLookup3 =
-  SLProxy ::
+  Proxy ::
     forall rl sl.
-    RowToList ( "q" :: (SLProxy ("a" :/ "b" :/ SNil)), "r" :: (SLProxy ("x" :/ "b" :/ SNil)) ) rl =>
+    RowToList ( "q" :: (Proxy ("a" :/ "b" :/ SNil)), "r" :: (Proxy ("x" :/ "b" :/ SNil)) ) rl =>
     Lookup "f" rl sl =>
-    SLProxy sl
+    Proxy sl
 
-testConcat :: SLProxy ("a" :/ "b" :/ "c" :/ SNil)
+testConcat :: Proxy ("a" :/ "b" :/ "c" :/ SNil)
 testConcat =
-  SLProxy ::
+  Proxy ::
     forall sl.
     Concat ("a" :/ "b" :/ SNil) ("c" :/ SNil) sl =>
-    SLProxy sl
+    Proxy sl
 
-testRemoveDuplicates :: SLProxy ("a" :/ SNil)
+testRemoveDuplicates :: Proxy ("a" :/ SNil)
 testRemoveDuplicates =
-  SLProxy ::
+  Proxy ::
     forall sl.
     RemoveDuplicates ("a" :/ SNil) sl =>
-    SLProxy sl
+    Proxy sl
 
-testRemoveDuplicates1 :: SLProxy ("a" :/ SNil)
+testRemoveDuplicates1 :: Proxy ("a" :/ SNil)
 testRemoveDuplicates1 =
-  SLProxy ::
+  Proxy ::
     forall sl.
     RemoveDuplicates ("a" :/ "a" :/ SNil) sl =>
-    SLProxy sl
+    Proxy sl
 
-testRemoveDuplicates2 :: SLProxy ("b" :/ "a" :/ SNil)
+testRemoveDuplicates2 :: Proxy ("b" :/ "a" :/ SNil)
 testRemoveDuplicates2 =
-  SLProxy ::
+  Proxy ::
     forall sl.
     RemoveDuplicates ("a" :/ "b" :/ "a" :/ SNil) sl =>
-    SLProxy sl
+    Proxy sl
 
-testTraversal0 :: SLProxy ("q" :/ SNil)
+testTraversal0 :: Proxy ("q" :/ SNil)
 testTraversal0 =
-  SLProxy ::
+  Proxy ::
     forall sl.
-    Traversal "q" ( "q" :: SLProxy SNil ) sl =>
-    SLProxy sl
+    Traversal "q" ( "q" :: Proxy SNil ) sl =>
+    Proxy sl
 
-testTraversal1 :: SLProxy ("a" :/ "q" :/  SNil)
+testTraversal1 :: Proxy ("a" :/ "q" :/ SNil)
 testTraversal1 =
-  SLProxy ::
+  Proxy ::
     forall sl.
-    Traversal "q" ( "q" :: SLProxy ("a" :/ SNil) ) sl =>
-    SLProxy sl
+    Traversal "q" ( "q" :: Proxy ("a" :/ SNil) ) sl =>
+    Proxy sl
 
-testEmptyGraph :: BProxy True
+testEmptyGraph :: Proxy True
 testEmptyGraph =
-  BProxy ::
+  Proxy ::
     forall b.
     IsConnected () b =>
-    BProxy b
+    Proxy b
 
-testSingletonGraph :: BProxy True
+testSingletonGraph :: Proxy True
 testSingletonGraph =
-  BProxy ::
+  Proxy ::
     forall b.
-    IsConnected ( a :: (SLProxy SNil) ) b =>
-    BProxy b
+    IsConnected ( a :: (Proxy SNil) ) b =>
+    Proxy b
 
-testLoop :: BProxy True
+testLoop :: Proxy True
 testLoop =
-  BProxy ::
+  Proxy ::
     forall b.
-    IsConnected ( a :: (SLProxy ("a" :/ SNil)) ) b =>
-    BProxy b
+    IsConnected ( a :: (Proxy ("a" :/ SNil)) ) b =>
+    Proxy b
 
-testDisconnected :: BProxy False
+testDisconnected :: Proxy False
 testDisconnected =
-  BProxy ::
+  Proxy ::
     forall b.
-    IsConnected ( a :: (SLProxy ("a" :/ SNil)), b :: (SLProxy SNil) ) b =>
-    BProxy b
+    IsConnected ( a :: (Proxy ("a" :/ SNil)), b :: (Proxy SNil) ) b =>
+    Proxy b
 
-testConnected1 :: BProxy True
+testConnected1 :: Proxy True
 testConnected1 =
-  BProxy ::
+  Proxy ::
     forall b.
-    IsConnected ( a :: (SLProxy ("a" :/ SNil)), b :: (SLProxy ("a" :/ SNil)) ) b =>
-    BProxy b
+    IsConnected ( a :: (Proxy ("a" :/ SNil)), b :: (Proxy ("a" :/ SNil)) ) b =>
+    Proxy b
 
-testConnected2 :: BProxy True
+testConnected2 :: Proxy True
 testConnected2 =
-  BProxy ::
+  Proxy ::
     forall b.
-    IsConnected ( a :: (SLProxy ("b" :/ SNil)), b :: (SLProxy ("c" :/ SNil)) ) b =>
-    BProxy b
+    IsConnected ( a :: (Proxy ("b" :/ SNil)), b :: (Proxy ("c" :/ SNil)) ) b =>
+    Proxy b
 
-testConnected3 :: BProxy True
+testConnected3 :: Proxy True
 testConnected3 =
-  BProxy ::
+  Proxy ::
     forall b.
-    IsConnected ( b :: (SLProxy ("c" :/ SNil)), a :: (SLProxy ("b" :/ SNil)) ) b =>
-    BProxy b
+    IsConnected ( b :: (Proxy ("c" :/ SNil)), a :: (Proxy ("b" :/ SNil)) ) b =>
+    Proxy b
 
-testConnected4 :: BProxy False
+testConnected4 :: Proxy False
 testConnected4 =
-  BProxy ::
+  Proxy ::
     forall b.
-    IsConnected ( b :: (SLProxy ("c" :/ SNil)), a :: (SLProxy ("q" :/ SNil)) ) b =>
-    BProxy b
+    IsConnected ( b :: (Proxy ("c" :/ SNil)), a :: (Proxy ("q" :/ SNil)) ) b =>
+    Proxy b
 
-testConnected5 :: BProxy True
+testConnected5 :: Proxy True
 testConnected5 =
-  BProxy ::
+  Proxy ::
     forall b.
     IsConnected
-      ( b :: (SLProxy ("c" :/ "d" :/ SNil))
-      , d :: (SLProxy SNil)
-      , a :: (SLProxy ("b" :/ SNil))
+      ( b :: (Proxy ("c" :/ "d" :/ SNil))
+      , d :: (Proxy SNil)
+      , a :: (Proxy ("b" :/ SNil))
       )
       b =>
-    BProxy b
+    Proxy b
 
-connected :: forall (graph :: # Type). Connected graph => Record graph -> Unit
+connected :: forall graph. Connected graph => Record graph -> Unit
 connected _ = unit
 
 r =
   connected
-    { b: SLProxy :: (SLProxy ("c" :/ "d" :/ SNil))
-    , d: SLProxy :: (SLProxy SNil)
-    , a: SLProxy :: (SLProxy ("b" :/ SNil))
+    { b: Proxy :: (Proxy ("c" :/ "d" :/ SNil))
+    , d: Proxy :: (Proxy SNil)
+    , a: Proxy :: (Proxy ("b" :/ SNil))
     } ::
     Unit
 
-testConnected :: BProxy True
+testConnected :: Proxy True
 testConnected =
-  BProxy ::
+  Proxy ::
     forall b.
-    IsConnected ( a :: (SLProxy ("b" :/ SNil)), b :: (SLProxy SNil) ) b =>
-    BProxy b
+    IsConnected ( a :: (Proxy ("b" :/ SNil)), b :: (Proxy SNil) ) b =>
+    Proxy b
 
-testAllEdges :: SLProxy ("a" :/ SNil)
+testAllEdges :: Proxy ("a" :/ SNil)
 testAllEdges =
-  SLProxy ::
+  Proxy ::
     forall sl.
-    AllEdges ( "q" :: SLProxy ("a" :/ SNil) ) sl =>
-    SLProxy sl
+    AllEdges ( "q" :: Proxy ("a" :/ SNil) ) sl =>
+    Proxy sl
 
-testAllEdges1 :: SLProxy ("r" :/ "p" :/ "a" :/ SNil)
+testAllEdges1 :: Proxy ("r" :/ "p" :/ "a" :/ SNil)
 testAllEdges1 =
-  SLProxy ::
+  Proxy ::
     forall sl.
-    AllEdges ( "q" :: SLProxy ("a" :/ SNil), "f" :: SLProxy ("r" :/ "p" :/ SNil) ) sl =>
-    SLProxy sl
+    AllEdges ( "q" :: Proxy ("a" :/ SNil), "f" :: Proxy ("r" :/ "p" :/ SNil) ) sl =>
+    Proxy sl
 
-testAllEdges2 :: SLProxy ("p" :/ "a" :/ "r" :/ SNil)
+testAllEdges2 :: Proxy ("p" :/ "a" :/ "r" :/ SNil)
 testAllEdges2 =
-  SLProxy ::
+  Proxy ::
     forall sl.
-    AllEdges ( "q" :: SLProxy ("a" :/ "r" :/ SNil), "f" :: SLProxy ("r" :/ "p" :/ SNil) ) sl =>
-    SLProxy sl
+    AllEdges ( "q" :: Proxy ("a" :/ "r" :/ SNil), "f" :: Proxy ("r" :/ "p" :/ SNil) ) sl =>
+    Proxy sl
 
-hasOprhanNodes0 :: BProxy True
+hasOprhanNodes0 :: Proxy True
 hasOprhanNodes0 =
-  BProxy ::
+  Proxy ::
     forall b.
     HasOrphanNodes
-      ( "q" :: SLProxy ("a" :/ "r" :/ SNil)
-      , "f" :: SLProxy ("r" :/ "p" :/ SNil)
+      ( "q" :: Proxy ("a" :/ "r" :/ SNil)
+      , "f" :: Proxy ("r" :/ "p" :/ SNil)
       )
       b =>
-    BProxy b
+    Proxy b
 
-hasOprhanNodes1 :: BProxy False
+hasOprhanNodes1 :: Proxy False
 hasOprhanNodes1 =
-  BProxy ::
+  Proxy ::
     forall b.
     HasOrphanNodes
-      ( "a" :: SLProxy SNil
-      , "r" :: SLProxy SNil
-      , "p" :: SLProxy SNil
-      , "q" :: SLProxy ("a" :/ "r" :/ SNil)
-      , "f" :: SLProxy ("r" :/ "p" :/ SNil)
+      ( "a" :: Proxy SNil
+      , "r" :: Proxy SNil
+      , "p" :: Proxy SNil
+      , "q" :: Proxy ("a" :/ "r" :/ SNil)
+      , "f" :: Proxy ("r" :/ "p" :/ SNil)
       )
       b =>
-    BProxy b
+    Proxy b
 
-noOrphanedNodes :: forall (graph :: # Type). NoOrphanedNodes graph => Record graph -> Unit
+noOrphanedNodes :: forall graph. NoOrphanedNodes graph => Record graph -> Unit
 noOrphanedNodes _ = unit
 
 z =
   noOrphanedNodes
-    { a: SLProxy :: SLProxy SNil
-    , r: SLProxy :: SLProxy SNil
-    , p: SLProxy :: SLProxy SNil
-    , q: SLProxy :: SLProxy ("a" :/ "r" :/ SNil)
-    , f: SLProxy :: SLProxy ("r" :/ "p" :/ SNil)
+    { a: Proxy :: Proxy SNil
+    , r: Proxy :: Proxy SNil
+    , p: Proxy :: Proxy SNil
+    , q: Proxy :: Proxy ("a" :/ "r" :/ SNil)
+    , f: Proxy :: Proxy ("r" :/ "p" :/ SNil)
     } ::
     Unit
 
-nTermini1 :: NProxy D3
+nTermini1 :: Proxy D3
 nTermini1 =
-  NProxy ::
+  Proxy ::
     forall n.
     NTermini
-      ( "a" :: SLProxy SNil
-      , "r" :: SLProxy SNil
-      , "p" :: SLProxy SNil
-      , "q" :: SLProxy ("a" :/ "r" :/ SNil)
-      , "f" :: SLProxy ("r" :/ "p" :/ SNil)
+      ( "a" :: Proxy SNil
+      , "r" :: Proxy SNil
+      , "p" :: Proxy SNil
+      , "q" :: Proxy ("a" :/ "r" :/ SNil)
+      , "f" :: Proxy ("r" :/ "p" :/ SNil)
       )
       n =>
-    NProxy n
+    Proxy n
 
-nTermini2 :: NProxy Z
+nTermini2 :: Proxy Z
 nTermini2 =
-  NProxy ::
+  Proxy ::
     forall n.
     NTermini
-      ( "q" :: SLProxy ("a" :/ "r" :/ SNil)
-      , "f" :: SLProxy ("r" :/ "p" :/ SNil)
+      ( "q" :: Proxy ("a" :/ "r" :/ SNil)
+      , "f" :: Proxy ("r" :/ "p" :/ SNil)
       )
       n =>
-    NProxy n
+    Proxy n
 
-hasUniqueTerminus1 :: BProxy False
+hasUniqueTerminus1 :: Proxy False
 hasUniqueTerminus1 =
-  BProxy ::
+  Proxy ::
     forall b.
     HasUniqueTerminus
-      ( "q" :: SLProxy ("a" :/ "r" :/ SNil)
-      , "f" :: SLProxy ("r" :/ "p" :/ SNil)
+      ( "q" :: Proxy ("a" :/ "r" :/ SNil)
+      , "f" :: Proxy ("r" :/ "p" :/ SNil)
       )
       b =>
-    BProxy b
+    Proxy b
 
-hasUniqueTerminus2 :: BProxy True
+hasUniqueTerminus2 :: Proxy True
 hasUniqueTerminus2 =
-  BProxy ::
+  Proxy ::
     forall b.
     HasUniqueTerminus
-      ( "q" :: SLProxy ("a" :/ "r" :/ SNil)
-      , "a" :: SLProxy SNil
-      , "f" :: SLProxy ("r" :/ "p" :/ SNil)
+      ( "q" :: Proxy ("a" :/ "r" :/ SNil)
+      , "a" :: Proxy SNil
+      , "f" :: Proxy ("r" :/ "p" :/ SNil)
       )
       b =>
-    BProxy b
+    Proxy b
 
-withUniqueTerminus :: forall (graph :: # Type). WithUniqueTerminus graph => Record graph -> Unit
+withUniqueTerminus :: forall graph. WithUniqueTerminus graph => Record graph -> Unit
 withUniqueTerminus _ = unit
 
 w =
   withUniqueTerminus
-    { "q": SLProxy :: SLProxy ("a" :/ "r" :/ SNil)
-    , "a": SLProxy :: SLProxy SNil
-    , "f": SLProxy :: SLProxy ("r" :/ "p" :/ SNil)
+    { "q": Proxy :: Proxy ("a" :/ "r" :/ SNil)
+    , "a": Proxy :: Proxy SNil
+    , "f": Proxy :: Proxy ("r" :/ "p" :/ SNil)
     } ::
     Unit
 
-hasDuplicateNodes1 :: BProxy False
+hasDuplicateNodes1 :: Proxy False
 hasDuplicateNodes1 =
-  BProxy ::
+  Proxy ::
     forall b.
     HasDuplicateNodes
-      ( "q" :: SLProxy ("a" :/ "r" :/ SNil)
-      , "a" :: SLProxy SNil
-      , "f" :: SLProxy ("r" :/ "p" :/ SNil)
+      ( "q" :: Proxy ("a" :/ "r" :/ SNil)
+      , "a" :: Proxy SNil
+      , "f" :: Proxy ("r" :/ "p" :/ SNil)
       )
       b =>
-    BProxy b
+    Proxy b
 
-ndnTest :: forall (graph :: # Type). NoDuplicateNodes graph => Record graph -> Unit
+ndnTest :: forall graph. NoDuplicateNodes graph => Record graph -> Unit
 ndnTest _ = unit
 
 x =
   ndnTest
-    { q: SLProxy :: SLProxy ("a" :/ "r" :/ SNil)
-    , a: SLProxy :: SLProxy SNil
-    , f: SLProxy :: SLProxy ("r" :/ "p" :/ SNil)
+    { q: Proxy :: Proxy ("a" :/ "r" :/ SNil)
+    , a: Proxy :: Proxy SNil
+    , f: Proxy :: Proxy ("r" :/ "p" :/ SNil)
     } ::
     Unit
 
-hasDuplicateNodes2 :: BProxy True
+hasDuplicateNodes2 :: Proxy True
 hasDuplicateNodes2 =
-  BProxy ::
+  Proxy ::
     forall b.
     HasDuplicateNodes
-      ( "q" :: SLProxy ("a" :/ "r" :/ SNil)
-      , "a" :: SLProxy SNil
-      , "f" :: SLProxy ("r" :/ "p" :/ SNil)
-      , "q" :: SLProxy SNil
+      ( "q" :: Proxy ("a" :/ "r" :/ SNil)
+      , "a" :: Proxy SNil
+      , "f" :: Proxy ("r" :/ "p" :/ SNil)
+      , "q" :: Proxy SNil
       )
       b =>
-    BProxy b
+    Proxy b
 
-hasDuplicateEdges1 :: BProxy False
+hasDuplicateEdges1 :: Proxy False
 hasDuplicateEdges1 =
-  BProxy ::
+  Proxy ::
     forall b.
     HasDuplicateEdges
-      ( "q" :: SLProxy ("a" :/ "r" :/ SNil)
-      , "a" :: SLProxy SNil
-      , "f" :: SLProxy ("r" :/ "p" :/ SNil)
+      ( "q" :: Proxy ("a" :/ "r" :/ SNil)
+      , "a" :: Proxy SNil
+      , "f" :: Proxy ("r" :/ "p" :/ SNil)
       )
       b =>
-    BProxy b
+    Proxy b
 
-ndeTest :: forall (graph :: # Type). NoDuplicateEdges graph => Record graph -> Unit
+ndeTest :: forall graph. NoDuplicateEdges graph => Record graph -> Unit
 ndeTest _ = unit
 
 o =
   ndeTest
-    { q: SLProxy :: SLProxy ("a" :/ "r" :/ SNil)
-    , a: SLProxy :: SLProxy SNil
-    , f: SLProxy :: SLProxy ("r" :/ "p" :/ SNil)
+    { q: Proxy :: Proxy ("a" :/ "r" :/ SNil)
+    , a: Proxy :: Proxy SNil
+    , f: Proxy :: Proxy ("r" :/ "p" :/ SNil)
     } ::
     Unit
 
-hasDuplicateEdges2 :: BProxy False
+hasDuplicateEdges2 :: Proxy False
 hasDuplicateEdges2 =
-  BProxy ::
+  Proxy ::
     forall b.
     HasDuplicateEdges
-      ( "q" :: SLProxy ("a" :/ "r" :/ SNil)
-      , "a" :: SLProxy SNil
-      , "f" :: SLProxy ("r" :/ "p" :/ SNil)
-      , "q" :: SLProxy SNil
+      ( "q" :: Proxy ("a" :/ "r" :/ SNil)
+      , "a" :: Proxy SNil
+      , "f" :: Proxy ("r" :/ "p" :/ SNil)
+      , "q" :: Proxy SNil
       )
       b =>
-    BProxy b
+    Proxy b
 
-hasDuplicateEdges3 :: BProxy True
+hasDuplicateEdges3 :: Proxy True
 hasDuplicateEdges3 =
-  BProxy ::
+  Proxy ::
     forall b.
     HasDuplicateEdges
-      ( "q" :: SLProxy ("a" :/ "r" :/ SNil)
-      , "a" :: SLProxy SNil
-      , "f" :: SLProxy ("r" :/ "r" :/ "p" :/ SNil)
-      , "q" :: SLProxy SNil
+      ( "q" :: Proxy ("a" :/ "r" :/ SNil)
+      , "a" :: Proxy SNil
+      , "f" :: Proxy ("r" :/ "r" :/ "p" :/ SNil)
+      , "q" :: Proxy SNil
       )
       b =>
-    BProxy b
+    Proxy b
 
-incomingNodes1 :: SLProxy ("q" :/ SNil)
+incomingNodes1 :: Proxy ("q" :/ SNil)
 incomingNodes1 =
-  SLProxy ::
+  Proxy ::
     forall sl.
     IncomingNodes
       "a"
-      ( "q" :: SLProxy ("a" :/ "r" :/ SNil)
-      , "a" :: SLProxy SNil
-      , "f" :: SLProxy ("r" :/ "p" :/ SNil)
-      , "q" :: SLProxy SNil
+      ( "q" :: Proxy ("a" :/ "r" :/ SNil)
+      , "a" :: Proxy SNil
+      , "f" :: Proxy ("r" :/ "p" :/ SNil)
+      , "q" :: Proxy SNil
       )
       sl =>
-    SLProxy sl
+    Proxy sl
 
-incomingNodes2 :: SLProxy SNil
+incomingNodes2 :: Proxy SNil
 incomingNodes2 =
-  SLProxy ::
+  Proxy ::
     forall sl.
     IncomingNodes
       "q"
-      ( "q" :: SLProxy ("a" :/ "r" :/ SNil)
-      , "a" :: SLProxy SNil
-      , "f" :: SLProxy ("r" :/ "p" :/ SNil)
-      , "q" :: SLProxy SNil
+      ( "q" :: Proxy ("a" :/ "r" :/ SNil)
+      , "a" :: Proxy SNil
+      , "f" :: Proxy ("r" :/ "p" :/ SNil)
+      , "q" :: Proxy SNil
       )
       sl =>
-    SLProxy sl
+    Proxy sl
 
-incomingNodes3 :: SLProxy ("f" :/ "q" :/ SNil)
+incomingNodes3 :: Proxy ("f" :/ "q" :/ SNil)
 incomingNodes3 =
-  SLProxy ::
+  Proxy ::
     forall sl.
     IncomingNodes
       "a"
-      ( "q" :: SLProxy ("a" :/ "r" :/ SNil)
-      , "a" :: SLProxy SNil
-      , "f" :: SLProxy ("a" :/ "p" :/ SNil)
+      ( "q" :: Proxy ("a" :/ "r" :/ SNil)
+      , "a" :: Proxy SNil
+      , "f" :: Proxy ("a" :/ "p" :/ SNil)
       )
       sl =>
-    SLProxy sl
+    Proxy sl
 
 flipDirection ::
-  RProxy
-    ( "q" :: SLProxy SNil
-    , "a" :: SLProxy ("f" :/ "q" :/ SNil)
-    , "f" :: SLProxy SNil
-    , "r" :: SLProxy ("q" :/ SNil)
-    , "p" :: SLProxy ("f" :/ SNil)
+  Proxy
+    ( "q" :: Proxy SNil
+    , "a" :: Proxy ("f" :/ "q" :/ SNil)
+    , "f" :: Proxy SNil
+    , "r" :: Proxy ("q" :/ SNil)
+    , "p" :: Proxy ("f" :/ SNil)
     )
 flipDirection =
-  RProxy ::
-    forall (r :: # Type).
+  Proxy ::
+    forall r.
     FlipDirection
-      ( "q" :: SLProxy ("a" :/ "r" :/ SNil)
-      , "a" :: SLProxy SNil
-      , "f" :: SLProxy ("a" :/ "p" :/ SNil)
-      , "r" :: SLProxy SNil
-      , "p" :: SLProxy SNil
+      ( "q" :: Proxy ("a" :/ "r" :/ SNil)
+      , "a" :: Proxy SNil
+      , "f" :: Proxy ("a" :/ "p" :/ SNil)
+      , "r" :: Proxy SNil
+      , "p" :: Proxy SNil
       )
       r =>
-    RProxy r
+    Proxy r
 
 ---------------- from audio behaviors
-
 a_flipDirection ::
-  RProxy
-    ( "combine" :: SLProxy SNil
-      , "gain" :: SLProxy ("combine" :/ SNil)
-      , "del" :: SLProxy ("gain" :/ SNil)
-      , "filt" :: SLProxy ("del" :/ SNil)
-      , "mic" :: SLProxy ("combine" :/ "filt" :/  SNil)
-      )
+  Proxy
+    ( "combine" :: Proxy SNil
+    , "gain" :: Proxy ("combine" :/ SNil)
+    , "del" :: Proxy ("gain" :/ SNil)
+    , "filt" :: Proxy ("del" :/ SNil)
+    , "mic" :: Proxy ("combine" :/ "filt" :/ SNil)
+    )
 a_flipDirection =
-  RProxy ::
-    forall (r :: # Type).
+  Proxy ::
+    forall r.
     FlipDirection
-      ( "combine" :: SLProxy ("gain" :/ "mic" :/ SNil)
-      , "gain" :: SLProxy ("del" :/ SNil)
-      , "del" :: SLProxy ("filt" :/ SNil)
-      , "filt" :: SLProxy ("mic" :/ SNil)
-      , "mic" :: SLProxy SNil
+      ( "combine" :: Proxy ("gain" :/ "mic" :/ SNil)
+      , "gain" :: Proxy ("del" :/ SNil)
+      , "del" :: Proxy ("filt" :/ SNil)
+      , "filt" :: Proxy ("mic" :/ SNil)
+      , "mic" :: Proxy SNil
       )
       r =>
-    RProxy r
+    Proxy r
 
-a_testConnectedWithFlip :: BProxy True
+a_testConnectedWithFlip :: Proxy True
 a_testConnectedWithFlip =
-  BProxy ::
-    forall (r :: # Type) b.
+  Proxy ::
+    forall r b.
     FlipDirection
-      ( "combine" :: SLProxy ("gain" :/ "mic" :/ SNil)
-      , "gain" :: SLProxy ("del" :/ SNil)
-      , "del" :: SLProxy ("filt" :/ SNil)
-      , "filt" :: SLProxy ("mic" :/ SNil)
-      , "mic" :: SLProxy SNil
+      ( "combine" :: Proxy ("gain" :/ "mic" :/ SNil)
+      , "gain" :: Proxy ("del" :/ SNil)
+      , "del" :: Proxy ("filt" :/ SNil)
+      , "filt" :: Proxy ("mic" :/ SNil)
+      , "mic" :: Proxy SNil
       )
       r =>
     IsConnected r b =>
-    BProxy b
+    Proxy b
 
 main :: Effect Unit
 main = do
