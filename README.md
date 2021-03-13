@@ -4,34 +4,34 @@ Basic typelevel assertions about graphs.
 
 ```haskell
 
-testConnected3 :: BProxy True
+testConnected3 :: Proxy True
 testConnected3 =
-  BProxy ::
+  Proxy ::
     forall b.
     IsConnected ( b :: (SLProxy ("c" :/ SNil)), a :: (SLProxy ("b" :/ SNil)) ) b =>
-    BProxy b
+    Proxy b
 
-testConnected4 :: BProxy False
+testConnected4 :: Proxy False
 testConnected4 =
-  BProxy ::
+  Proxy ::
     forall b.
     IsConnected ( b :: (SLProxy ("c" :/ SNil)), a :: (SLProxy ("q" :/ SNil)) ) b =>
-    BProxy b
+    Proxy b
 
-hasOprhanNodes0 :: BProxy True
+hasOprhanNodes0 :: Proxy True
 hasOprhanNodes0 =
-  BProxy ::
+  Proxy ::
     forall b.
     HasOrphanNodes
       ( "q" :: SLProxy ("a" :/ "r" :/ SNil)
       , "f" :: SLProxy ("r" :/ "p" :/ SNil)
       )
       b =>
-    BProxy b
+    Proxy b
 
-hasOprhanNodes1 :: BProxy False
+hasOprhanNodes1 :: Proxy False
 hasOprhanNodes1 =
-  BProxy ::
+  Proxy ::
     forall b.
     HasOrphanNodes
       ( "a" :: SLProxy SNil
@@ -41,5 +41,5 @@ hasOprhanNodes1 =
       , "f" :: SLProxy ("r" :/ "p" :/ SNil)
       )
       b =>
-    BProxy b
+    Proxy b
 ```
